@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: example
+  template:
+    metadata:
+      labels:
+        app: example
+    spec:
+      containers:
+      - name: example
+        image: example
+        ports:
+        - containerPort: 3000
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 3
+          periodSeconds: 3
+        env:
+          - name: MY_NODE_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
+          - name: RANDOM_VAR
+            value: "ayyyy lmao"
+          - name: MY_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: my-secrets
+                key: my_password
+          - name: VAR_FROM_CONFIGMAP
+            valueFrom:
+              configMapKeyRef:
+                name: my-configmap
+                key: example_text

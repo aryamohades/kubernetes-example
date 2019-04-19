@@ -1,0 +1,18 @@
+# skaffold.yml
+apiVersion: skaffold/v1beta7
+kind: Config
+build:
+  local:
+    push: false
+  artifacts:
+  - image: example
+    context: example
+    sync:
+      '***/*.js': .
+    docker:
+      dockerfile: Dockerfile
+deploy:
+  kubectl:
+    manifests:
+    - service.yml
+    - deployment.yml
