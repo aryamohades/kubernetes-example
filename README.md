@@ -1,3 +1,3 @@
 # kubernetes-example
 
-kubectl create secret -f secret.yml
+`kubectl create secret -f secret.yml`
